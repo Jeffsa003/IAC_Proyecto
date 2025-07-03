@@ -4,10 +4,10 @@ name: CI/CD Pipeline for Elearning Platform
 on:
   push:
     branches:
-      - master # O la rama principal que uses
+      - develop # O la rama principal que uses
   pull_request:
     branches:
-      - master
+      - develop
 
 jobs:
   quality-and-security-checks:
@@ -53,7 +53,7 @@ jobs:
     name: Deploy to AWS
     needs: quality-and-security-checks # Depende del éxito del job anterior
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' && github.event_name == 'push' # Solo desplegar en push a master
+    if: github.ref == 'refs/heads/develop' && github.event_name == 'push' # Solo desplegar en push a develop
 
     steps:
       - name: Checkout code
