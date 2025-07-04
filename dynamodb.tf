@@ -30,4 +30,8 @@ resource "aws_dynamodb_table" "main_table" {
   tags = {
     Name = var.table_name
   }
+
+  server_side_encryption {
+    enabled = true
+  }
 }

@@ -34,7 +34,7 @@ resource "aws_iam_policy" "generate_certificate_lambda_policy" {
       {
         Action   = ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"],
         Effect   = "Allow",
-        Resource = "arn:aws:logs:*:*:*"
+        Resource = "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${var.project_name}-generateCertificate:*"
       },
       {
         Action   = ["dynamodb:GetItem"],
@@ -54,6 +54,9 @@ resource "aws_iam_policy" "generate_certificate_lambda_policy" {
     ]
   })
 }
+
+data "aws_region" "current" {}
+data "aws_caller_identity" "current" {}
 
 # 4. Adjuntar la política al rol
 resource "aws_iam_role_policy_attachment" "generate_certificate_lambda_attach" {

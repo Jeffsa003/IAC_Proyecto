@@ -9,6 +9,15 @@ resource "aws_s3_bucket" "original_videos" {
   }
 }
 
+resource "aws_s3_bucket_public_access_block" "original_videos_public_access_block" {
+  bucket = aws_s3_bucket.original_videos.id
+
+  block_public_acls   = true
+  block_public_policy = true
+  ignore_public_acls  = true
+  restrict_public_buckets = true
+}
+
 # 2. Configuración de CORS para el bucket de videos originales
 resource "aws_s3_bucket_cors_configuration" "original_videos_cors" {
   bucket = aws_s3_bucket.original_videos.id
@@ -28,6 +37,15 @@ resource "aws_s3_bucket" "transcoded_videos" {
   tags = {
     Name = "${var.project_name}-transcoded-videos"
   }
+}
+
+resource "aws_s3_bucket_public_access_block" "transcoded_videos_public_access_block" {
+  bucket = aws_s3_bucket.transcoded_videos.id
+
+  block_public_acls   = true
+  block_public_policy = true
+  ignore_public_acls  = true
+  restrict_public_buckets = true
 }
 
 # 4. Recurso para generar un sufijo aleatorio para los nombres de los buckets
