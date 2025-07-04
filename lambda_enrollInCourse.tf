@@ -45,9 +45,6 @@ resource "aws_iam_policy" "enroll_in_course_lambda_policy" {
   })
 }
 
-data "aws_region" "current" {}
-data "aws_caller_identity" "current" {}
-
 # 4. Adjuntar la política al rol
 resource "aws_iam_role_policy_attachment" "enroll_in_course_lambda_attach" {
   role       = aws_iam_role.enroll_in_course_lambda_role.name

@@ -56,9 +56,6 @@ resource "aws_iam_policy" "send_email_lambda_policy" {
   })
 }
 
-data "aws_region" "current" {}
-data "aws_caller_identity" "current" {}
-
 # 4. Adjuntar la política al rol
 resource "aws_iam_role_policy_attachment" "send_email_lambda_attach" {
   role       = aws_iam_role.send_email_lambda_role.name

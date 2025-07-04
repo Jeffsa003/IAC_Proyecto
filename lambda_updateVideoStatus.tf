@@ -47,9 +47,6 @@ resource "aws_iam_policy" "update_video_status_lambda_policy" {
   })
 }
 
-data "aws_region" "current" {}
-data "aws_caller_identity" "current" {}
-
 # 4. Adjuntar la política al rol de la Lambda
 resource "aws_iam_role_policy_attachment" "update_video_status_lambda_attach" {
   role       = aws_iam_role.update_video_status_lambda_role.name
