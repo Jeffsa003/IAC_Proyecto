@@ -3,13 +3,12 @@ import json
 import os
 import boto3
 
-ses_client = boto3.client('ses')
-SENDER_EMAIL = os.environ.get('SENDER_EMAIL')
-
 def handler(event, context):
     """
     Processes messages from an SQS queue and sends emails using SES.
     """
+    ses_client = boto3.client('ses')
+    SENDER_EMAIL = os.environ.get('SENDER_EMAIL')
     log_data = {"function_name": context.function_name, "aws_request_id": context.aws_request_id, "event": event}
     print(json.dumps({"level": "INFO", "message": "Request received", "details": log_data}))
 

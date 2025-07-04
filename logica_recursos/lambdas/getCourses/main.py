@@ -3,15 +3,14 @@ import json
 import os
 import boto3
 
-# Inicializar el cliente de DynamoDB
-dynamodb = boto3.resource('dynamodb')
-table_name = os.environ.get('DYNAMODB_TABLE_NAME', 'ElearningPlatformTable')
-table = dynamodb.Table(table_name)
-
 def handler(event, context):
     """
     Fetches all courses from the DynamoDB table.
     """
+    # Inicializar el cliente de DynamoDB
+    dynamodb = boto3.resource('dynamodb')
+    table_name = os.environ.get('DYNAMODB_TABLE_NAME', 'ElearningPlatformTable')
+    table = dynamodb.Table(table_name)
     log_data = {"event": event, "function_name": context.function_name, "aws_request_id": context.aws_request_id}
     print(json.dumps({"level": "INFO", "message": "Request received", "details": log_data}))
 

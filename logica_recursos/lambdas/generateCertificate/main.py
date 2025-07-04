@@ -3,14 +3,13 @@ import json
 import os
 import boto3
 
-dynamodb = boto3.resource('dynamodb')
-sqs_client = boto3.client('sqs')
-
-table_name = os.environ.get('DYNAMODB_TABLE_NAME')
-queue_url = os.environ.get('SQS_QUEUE_URL')
-table = dynamodb.Table(table_name)
-
 def handler(event, context):
+    dynamodb = boto3.resource('dynamodb')
+    sqs_client = boto3.client('sqs')
+
+    table_name = os.environ.get('DYNAMODB_TABLE_NAME')
+    queue_url = os.environ.get('SQS_QUEUE_URL')
+    table = dynamodb.Table(table_name)
     log_data = {"function_name": context.function_name, "aws_request_id": context.aws_request_id}
     print(json.dumps({"level": "INFO", "message": "Request received", "details": log_data}))
 

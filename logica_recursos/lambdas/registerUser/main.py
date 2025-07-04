@@ -3,12 +3,12 @@ import json
 import os
 import boto3
 import uuid
-
-dynamodb = boto3.resource('dynamodb')
-table_name = os.environ.get('DYNAMODB_TABLE_NAME')
-table = dynamodb.Table(table_name)
+from boto3.dynamodb.conditions import Key
 
 def handler(event, context):
+    dynamodb = boto3.resource('dynamodb')
+    table_name = os.environ.get('DYNAMODB_TABLE_NAME')
+    table = dynamodb.Table(table_name)
     log_data = {"function_name": context.function_name, "aws_request_id": context.aws_request_id}
     print(json.dumps({"level": "INFO", "message": "Request received", "details": log_data}))
 
@@ -25,7 +25,7 @@ def handler(event, context):
         # --- LÓGICA DE VERIFICACIÓN ---
         response = table.query(
             IndexName='EmailIndex',
-            KeyConditionExpression=boto3.dynamodb.conditions.Key('email').eq(user_email)
+            KeyConditionExpression=Key('email').eq(user_email)
         )
 
         if response['Items']:

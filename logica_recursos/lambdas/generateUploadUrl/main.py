@@ -5,13 +5,12 @@ import boto3
 import uuid
 from botocore.exceptions import ClientError
 
-s3_client = boto3.client('s3')
-bucket_name = os.environ.get('ORIGINAL_VIDEOS_BUCKET_NAME')
-
 def handler(event, context):
     """
     Generates a pre-signed URL for uploading a video to S3.
     """
+    s3_client = boto3.client('s3')
+    bucket_name = os.environ.get('ORIGINAL_VIDEOS_BUCKET_NAME')
     log_data = {"function_name": context.function_name, "aws_request_id": context.aws_request_id}
     print(json.dumps({"level": "INFO", "message": "Request received", "details": log_data}))
 

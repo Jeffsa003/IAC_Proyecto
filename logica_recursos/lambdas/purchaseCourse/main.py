@@ -5,14 +5,13 @@ import boto3
 import uuid
 import time
 
-dynamodb = boto3.resource('dynamodb')
-table_name = os.environ.get('DYNAMODB_TABLE_NAME')
-table = dynamodb.Table(table_name)
-
 def handler(event, context):
     """
     Handles a course purchase.
     """
+    dynamodb = boto3.resource('dynamodb')
+    table_name = os.environ.get('DYNAMODB_TABLE_NAME')
+    table = dynamodb.Table(table_name)
     log_data = {"function_name": context.function_name, "aws_request_id": context.aws_request_id}
     print(json.dumps({"level": "INFO", "message": "Request received", "details": log_data}))
 
