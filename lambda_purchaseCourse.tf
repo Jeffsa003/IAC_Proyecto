@@ -40,16 +40,6 @@ resource "aws_iam_policy" "purchase_course_lambda_policy" {
         Action   = ["dynamodb:PutItem"],
         Effect   = "Allow",
         Resource = aws_dynamodb_table.main_table.arn
-      },
-      # Permisos necesarios para que la Lambda opere dentro de una VPC
-      {
-        Action = [
-          "ec2:CreateNetworkInterface",
-          "ec2:DescribeNetworkInterfaces",
-          "ec2:DeleteNetworkInterface"
-        ],
-        Effect   = "Allow",
-        Resource = "arn:aws:ec2:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:network-interface/*"
       }
     ]
   })
@@ -59,6 +49,11 @@ resource "aws_iam_policy" "purchase_course_lambda_policy" {
 resource "aws_iam_role_policy_attachment" "purchase_course_lambda_attach" {
   role       = aws_iam_role.purchase_course_lambda_role.name
   policy_arn = aws_iam_policy.purchase_course_lambda_policy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "purchase_course_lambda_vpc_attach" {
+  role       = aws_iam_role.purchase_course_lambda_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
 }
 
 # 5. Security Group para la Lambda
